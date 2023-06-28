@@ -3,8 +3,8 @@
 This GitHub open-source package contains Jupyter notebooks that feature machine learning examples associated with lectures at the Terascale Statistics School in Germany.
 
 ## Dependencies
-The notebooks in this in this package depend on several well-known, well-engineered, and free Python
-modules. 
+The notebooks in this package depend on several well-known Python
+modules, all well-engineered and free.
 
 | __modules__   | __description__     |
 | :---          | :---        |
@@ -56,7 +56,7 @@ where \<name\> is the name of the environment and rebuild it by reinstalling the
 
 ### Miniconda3
 
-After installing miniconda3, It is a good idea to update conda using the command
+After installing miniconda3, it is a good idea to update conda using the command
 ```bash
 conda update conda
 ```
@@ -65,21 +65,21 @@ Assuming conda is properly installed and initialized on your machine (say, your 
 ```bash
 conda create --name terascale
 ```
-and activate it by doing
+and activate it using the command
 ```bash
 conda activate terascale
 ```
 You need create the environment only once, but you must activate the desired environment whenever you create a new terminal window.
 
 #### Step 2 
-Install root, python, numpy, …
+With the environment activated, you can now install root, python, numpy, etc. For example, the following command installs the [ROOT](https://root.cern.ch) package from CERN
 ```
 	conda install –c conda-forge root
 ```
-If all goes well, this will install a recent version of the [ROOT](https://root.cern.ch) package from CERN as well as *Python* and several Python modules including *numpy*.
+If all goes well, this will install a recent version of the [ROOT](https://root.cern.ch) as well as a compatible version of *Python* and several Python modules including *numpy*.
 
 #### Step 3
-Install *pytorch*, *matplotlib*, *scikit-learn*, etc.
+Now install *pytorch*, *matplotlib*, *scikit-learn*, etc.
 ```bash
 	conda install –c conda-forge pytorch
 	conda install –c conda-forge matplotlib
@@ -91,10 +91,13 @@ Install *pytorch*, *matplotlib*, *scikit-learn*, etc.
 ```
 
 #### Step 4
-Install __git__ if it is not yet on your system, then download the __Terascale__ package.
+The command __git__ is needed to download the __Terascale__ package from GitHub. If __git__ is not on your machine, it can be installed using the command
 ```bash
 	conda install –c conda-forge git
-  cd 
+```
+To install __Terascale__  do
+```bash
+  	cd 
 	mkdir tutorials
 	cd tutorials
 	git clone https://github.com/hbprosper/Terascale
@@ -103,17 +106,14 @@ In the above, the package __Terascale__ has been downloaded into a directory cal
 
 #### Step 5
 
-Open a new terminal window, navigate to thedirectory that contains __Terascale__ and run the jupyter notebook in that window (in blocking mode, that is, without "&" at the end of the command).
+Open a new terminal window, navigate to the directory containing __Terascale__ and run the jupyter notebook in that window (in blocking mode, that is, without "&" at the end of the command)
 ```bash
 	jupyter notebook
 ```
-If all goes well, the jupyter notebook will appear in your default browser and the terminal window will be blocked. 
+If all goes well, the jupyter notebook will appear in your default web browser and the terminal window will be blocked. 
 In your browser, navigate to the __Terascale__ directory and under the *Files* menu item, click on the notebook *test.ipynb* and execute it. This notebook tries to import several Python modules. If it does so without complaints, you are ready to try the other notebooks.
 
-
-## Examples
-
-### Machine Learning
+# Machine Learning Examples
 | __notebook__   | __description__     |
 | :---             | :---        |
 | test.ipynb       | Test import ofrequired Python moduels |
