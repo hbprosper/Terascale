@@ -37,14 +37,9 @@ Python modules and at other times you may need to use Python 3.9.13 with
 modules that require that particular version of Python.  If you install software without using *environments* there is
 the danger that the software on your machine will eventually become
 inconsistent. Anaconda and its lightweight companion miniconda
-provide a way, for example, to create a software *environment*
+provide a way, for example, to have software *environment* on your machine that is
 consistent with Python 3.7.5 and another that is consistent with
-Python 3.9.13.  For example,
-one module may work only with a given version of numpy, while another
-requires a different version. In principle, having different versions of numpy on
-your machine, just
-like having different versions of Python, is not a problem if one uses
-environments.
+Python 3.9.13.  
 
 Of course, like anything humans make, miniconda3 is not
 perfect. There are times when the only solution is to remove an
