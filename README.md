@@ -67,7 +67,7 @@ conda create --name terascale
 ```
 and activate it by doing
 ```bash
-conda activate clashep
+conda activate terascale
 ```
 You need create the environment only once, but you must activate the desired environment whenever you create a new terminal window.
 
@@ -116,6 +116,7 @@ In your browser, navigate to the __Terascale__ directory and under the *Files* m
 ### Machine Learning
 | __notebook__   | __description__     |
 | :---             | :---        |
+| test.ipynb       | Test import ofrequired Python moduels |
 | hzz4l_sklearn    | Boosted Decision Trees (BDT) with AdaBoost: classification of Higgs boson events    |
 | hzz4l_pytorch    | Deep Neural Network (DNN): classification of Higgs boson events |
 | sdss_autoencoder | Autoencoder: map SDSS galaxy/quasar data to 1D |
