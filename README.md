@@ -52,7 +52,7 @@ environment using
 ```bash
 conda env remove -n <name>
 ```
-where <name> is the name of the environment.
+where \<name\> is the name of the environment.
 
 and rebuild it by reinstalling the desired Python modules.
 
