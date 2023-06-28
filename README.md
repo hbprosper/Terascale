@@ -56,7 +56,7 @@ After installing miniconda3, it is a good idea to update conda using the command
 conda update conda
 ```
 #### Step 1 
-Assuming conda is properly installed and initialized on your machine (say, your laptop), you can create an environment, here called *terascale*. 
+Assuming conda is properly installed and initialized on your machine (say, your laptop), you can create an environment, here called *terascale* 
 ```bash
 conda create --name terascale
 ```
@@ -64,7 +64,7 @@ and activate it using the command
 ```bash
 conda activate terascale
 ```
-You need create the environment only once, but you must activate the desired environment whenever you create a new terminal window.
+The environment need be created only once, but you must activate it whenever you create a new terminal window.
 
 #### Step 2 
 With the environment activated, you can now install root, python, numpy, etc. For example, the following command installs the [ROOT](https://root.cern.ch) package from CERN
