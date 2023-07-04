@@ -347,7 +347,8 @@ class BDT:
                    useValue=False,
                    alpha=0.6,
                    edgecolor='black',
-                   colormap=mp.cm.Blues):
+                   colormap=mp.cm.Blues, 
+                   addweight=False):
         
         xmin, xmax = ax.get_xlim()
         ymin, ymax = ax.get_ylim()
@@ -368,7 +369,13 @@ class BDT:
 
         if fig:
             fig.colorbar(p, ax=ax)
-
+            
+        if addweight:
+            w    = self.weight(itree)
+            xpos = (xmin+xmax)/2
+            ypos = (ymin+ymax)/2
+            ax.text(xpos, ypos, f'$a_{itree+1:d}: {w:4.2f}$')
+            
     def plot2D_(self, itree, 
                 xmin, xmax, ymin, ymax, 
                 useValue,
