@@ -1,6 +1,6 @@
 # Terascale Statistics School
 ## Introduction
-This GitHub open-source package contains jupyter notebooks that feature machine learning examples associated with lectures at the Terascale Statistics School in Germany.
+This GitHub open-source repository contains jupyter notebooks that feature machine learning examples associated with lectures at the Terascale Statistics School in Germany.
 
 ## Dependencies
 The notebooks in this package depend on several well-known Python
