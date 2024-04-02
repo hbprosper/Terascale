@@ -118,20 +118,37 @@ torch.backends.cudnn.deterministic = True
 # 
 # The file __seq2seq_series.txt__ contains (source, target) pairs where the targets are the Taylor series expansions of the corresponding sources up to an error term of ${\cal O}(x^6)$ and the sources are functions built from one or two terms randomly sampled from the set `{exp, sin, cos, tan, sinh, cosh, tanh}`. Since the source sequences are reasonably simple functions it is possible to train a transformer model to predict their Taylor series expansions in a few hours.
 
+# Define constants
+
 # In[3]:
 
 
 short_tutorial = True
 
+VERSION  = '04-02-24'
+DICTFILE = pathname(f'seq2seq_series-{VERSION:s}.pth')
+LOSSFILE = pathname(f'seq2seq_losses-{VERSION:s}.txt')
+
 if short_tutorial:
     MAX_SEQ_LEN = 85
     BATCH_SIZE  = 32
     filename = pathname('seq2seq_series_2terms.txt')
+
+    BATCH_SIZE    = 32
+    LEARNING_RATE = 2e-4
+    NITERATIONS   = 500000
+    STEP          =    100
+    
 else:
     MAX_SEQ_LEN = 200
     BATCH_SIZE  = 64
     filename = pathname('seq2seq_series.txt')
     
+    BATCH_SIZE    = 64
+    LEARNING_RATE = 2e-4
+    NITERATIONS   = 500000
+    STEP          =    100
+
 FTRAIN = 17
 FVALID = 2
 FTEST  = 1
@@ -924,7 +941,7 @@ class Seq2Seq(nn.Module):
 # \text{trg[1:]} &= [t_1, t_2, t_3, \text{<eos>}] .
 # \end{align}
 
-# In[18]:
+# In[13]:
 
 
 def train(model, optimizer, loss_fn, dataloader,
@@ -1103,9 +1120,14 @@ def epoch_time(start_time, end_time):
     return elapsed_mins, elapsed_secs
 
 
-# In[19]:
+# In[14]:
 
 
+def load_average_loss(filename):
+    records = [[float(y) for y in x.split()] for x in open(filename, 'r').readlines()]
+    xx, yy_t, yy_c = np.array(records).T
+    return xx, yy_t, yy_v
+    
 def plot_average_loss(traces, ftsize=18, filename=pathname('fig_loss.png')):
     
     xx, yy_t, yy_v = traces
@@ -1134,7 +1156,7 @@ def plot_average_loss(traces, ftsize=18, filename=pathname('fig_loss.png')):
     plt.show()
 
 
-# In[20]:
+# In[15]:
 
 
 MAX_SRC_LEN= dloader.SRC_SEQ_LEN
@@ -1167,7 +1189,7 @@ else:
     DEC_DROPOUT= 0.1
 
 
-# In[21]:
+# In[16]:
 
 
 enc = Encoder(INPUT_DIM, 
@@ -1204,21 +1226,7 @@ print(model)
 print(f'The model has {number_of_parameters(model):,} trainable parameters')
 
 
-# In[23]:
-
-
-import os
-
-VERSION     = '04-01-24'
-DICTFILE    = pathname(f'seq2seq_series-{VERSION:s}.pth')
-LOSSFILE    = pathname(f'seq2seq_losses-{VERSION:s}.txt')
-
-os.system(f'rm -rf {LOSSFILE:s}')
-    
-traces=([], [], [])
-
-
-# In[25]:
+# In[27]:
 
 
 LOAD        = False
@@ -1230,16 +1238,9 @@ if LOAD:
                                      map_location=torch.device(DEVICE)))
 
 if TRAIN:
-    if short_tutorial:
-        BATCH_SIZE    = 32
-        LEARNING_RATE = 2e-4
-        NITERATIONS   = 200000
-        STEP          =    100
-    else:
-        BATCH_SIZE    = 64
-        LEARNING_RATE = 2e-4
-        NITERATIONS   = 500000
-        STEP          =    100
+    
+    traces = ([], [], [])
+    os.system(f'rm -rf {LOSSFILE:s}')
 
     optimizer = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE)
 
@@ -1255,6 +1256,10 @@ if TRAIN:
                       step=STEP)
     
     plot_average_loss(traces)
+    
+else:
+    if sys.path.exists(LOSSFILE):
+        plot_average(load_average_loss(LOSSFILE))
 
 
 # ## Testing Model
