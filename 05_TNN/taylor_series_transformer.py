@@ -55,7 +55,7 @@
 
 # Check if we're on Google Colab. If we are, we assume that we're working in a folder called __transformer__. Otherwise, assume we're running locally.
 
-# In[17]:
+# In[1]:
 
 
 import sys
@@ -93,11 +93,11 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 
+
 import matplotlib as mp
 import matplotlib.pyplot as plt
-get_ipython().run_line_magic('matplotlib', 'inline')
 
-from dataloader import DataLoader, TimeLeft, number_of_parameters
+from dataloader import DataLoader, TimeLeft, number_of_parameters, stringify
 
 DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(f'\nComputational device: {str(DEVICE):s}')
@@ -234,7 +234,7 @@ class Encoder(nn.Module):
         # 3. send to computational device
         once_per_row = 1
         #   3.1 unsqueeze inserts a dimension, here dimension 0 so that pos has 
-        #     scape [1, src_len].
+        #     shape [1, src_len].
         #   3.2 repeat this row of integers batch_size times, once per row
         #   3.3 send to computational device
         pos = pos.unsqueeze(0).repeat(batch_size, once_per_row).to(self.device)
@@ -817,12 +817,12 @@ class DecoderLayer(nn.Module):
 # 
 # When the mask is applied to a target sequence, the mask limits which target sub-sequence is available for predicting the next token. For example, the first token of the target sequence has the mask **_[1, 0, 0, 0, 0]_**. Therefore, along with the entire source sequence, $\boldsymbol{x}$, only the `<sos>` token of the target sequence is available for prediction of the next token. Using, for example, a greedy search (see above) the model predicts token $y_1$. During training this prediction is compared with the 2nd target token, that is, the token $t_1$. The second token of the target sequence has the mask **_[1, 1, 0, 0, 0]_**.  Therefore,
 # along with the entire source sequence, only the target tokens `<sos>` and $t_1$ are available during training for prediction of the 3rd token, that is, the next token, $y_2$ and so on. By using a subsequent mask it is possible for the transformer model to implement the attention mechanism simultaneously for every target sub-sequence, which thereby makes it possible, during training, for the model to perform simultaneously the following predictions and comparisons,
-# \begin{align*}
+# \begin{align}
 #   \boldsymbol{x}, \text{<sos>} & \rightarrow y_1 \sim t_1,\\
 #   \boldsymbol{x}, \text{<sos>}, t_1  & \rightarrow y_2 \sim t_2, \\
 #         : & : \\
 #   \boldsymbol{x}, \text{<sos>}, t_1,\cdots, t_{k}  & \rightarrow y_{k+1} \sim \text{<eos>} ,
-# \end{align*}
+# \end{align}
 # with a loss computed for each comparison $y_i \sim t_i$. 
 #     
 # During evaluation, the model is used autoregressively: the entire source sequence $\boldsymbol{x}$ and target `<sos>` is used to predict $y_1$, then the source sequence and sequence `<sos>` and $y_1$ is used to predict $y_2$ and so on.
@@ -904,24 +904,25 @@ class Seq2Seq(nn.Module):
 # 
 # Given the entire source sequence, $\boldsymbol{x}$, and all output sub-sequences, we want the model to predict the next token for every output sub-sequence. In particular, we want the model to predict the `<eos>` token, thereby terminating its predicted sequence. Consider, again, a target sequence of size $k = 5$. Since we want the model to predict `<eos>`, we slice off the `<eos>` token from the end of the targets,
 # 
-# $$\begin{align*}
+# \begin{align}
 # \text{trg} &= [\text{<sos>}, t_1, t_2, t_3, \text{<eos>}]\\
 # \text{trg[:-1]} &= [\text{<sos>}, t_1, t_2, t_3],
-# \end{align*}$$
+# \end{align}
+# 
 # 
 # where the $t_i$ denotes target sequence tokens other than `<sos>` and `<eos>`. The sliced targets are fed into the model to get a predicted sequence. If all goes well, the model should predict the `<eos>` token, thereby terminating the predicted sequence,
 # 
-# $$\begin{align*}
+# \begin{align}
 # \text{output} &= [y_1, y_2, y_3, \text{<eos>}],
-# \end{align*}$$
+# \end{align}
 # 
 # where the
 # $y_i$ are the predicted target sequence tokens. The loss is computed using the original `trg` tensor with the `<sos>` token sliced off:
 # 
-# $$\begin{align*}
+# \begin{align}
 # \text{output} &= [y_1, y_2, y_3, \text{<eos>}]\\
 # \text{trg[1:]} &= [t_1, t_2, t_3, \text{<eos>}] .
-# \end{align*}$$
+# \end{align}
 
 # In[18]:
 
@@ -1231,12 +1232,12 @@ if LOAD:
 if TRAIN:
     if short_tutorial:
         BATCH_SIZE    = 32
-        LEARNING_RATE = 1e-4
-        NITERATIONS   = 30000
-        STEP          =    10
+        LEARNING_RATE = 2e-4
+        NITERATIONS   = 200000
+        STEP          =    100
     else:
         BATCH_SIZE    = 64
-        LEARNING_RATE = 1e-4
+        LEARNING_RATE = 2e-4
         NITERATIONS   = 500000
         STEP          =    100
 
