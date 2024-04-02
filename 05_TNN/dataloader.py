@@ -1,22 +1,30 @@
-# ---------------------------------------------------------------------
-# Utilities for transformer tutorial
-# Created June 2023 for Terascale School, DESY, Hamburg Germany, HBP
-# ---------------------------------------------------------------------
+#!/usr/bin/env python
+# coding: utf-8
+
+# # Some Seq2Seq Utilities
+
+# In[2]:
+
+
 import re
 import numpy as np
 import random as rn
 import torch
 import sympy as sp
-from IPython.display import display
-# ---------------------------------------------------------------------
+try:
+    from IPython.display import display
+except:
+    display = None
+
 # symbols
 from sympy import symbols, sympify, exp, \
     cos, sin, tan, \
     cosh, sinh, tanh, ln, log, E, O
 x,a,b,c,d,f,g = symbols('x,a,b,c,d,f,g', real=True)
-# ---------------------------------------------------------------------
+
 
 # In[16]:
+
 
 def print_shape(a, x):
     print(f'{a:s}: {str(x.shape):s}')
@@ -26,7 +34,10 @@ def number_of_parameters(model):
 
 # pretty print symbolic expression
 def pprint(expr):
-    display(sympify(expr))
+    try:
+        display(sympify(expr))
+    except:
+        print(expr)
 
 # regular expression (regex) to extract tokens
 get_tokens = re.compile('O[(]x[*][*]6[)]|[*][*]|[*]|[+]|[-]|[/]|'\
@@ -445,8 +456,12 @@ class TimeLeft:
     
     N: maximum loop count
     
-    for i in timeleft:
-        : :
+      for i in timeleft:
+          : :
+
+    or
+       timeleft(i, extra)
+      
     '''
     def __init__(self, N):
         import time
