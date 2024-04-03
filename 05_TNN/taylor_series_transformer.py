@@ -1259,7 +1259,7 @@ if TRAIN:
     
 else:
     if os.path.exists(LOSSFILE):
-        plot_average(load_average_loss(LOSSFILE))
+        plot_average_loss(load_average_loss(LOSSFILE))
 
 
 # ## Testing Model
