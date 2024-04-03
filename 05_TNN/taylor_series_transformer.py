@@ -1258,7 +1258,7 @@ if TRAIN:
     plot_average_loss(traces)
     
 else:
-    if sys.path.exists(LOSSFILE):
+    if os.path.exists(LOSSFILE):
         plot_average(load_average_loss(LOSSFILE))
 
 
